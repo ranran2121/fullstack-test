@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Result } from 'antd';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 import Api from '../helpers/core/Api';
 
@@ -91,6 +91,8 @@ const Home = () => {
       title="Expense and Income Diary"
       loading={loading}
       icon={<FontAwesomeIcon icon={faBook} size="1x" className="text-primary ml-2" />}
+      titleAction="Add"
+      actionIcon={<FontAwesomeIcon icon={faCirclePlus} size="1x" className="text-primary ml-2" />}
     >
       {error ? (
         <Result status="warning" title="There are some problems with the operation." />

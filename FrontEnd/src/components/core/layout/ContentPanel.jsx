@@ -14,7 +14,8 @@ const ContentPanel = ({
   back = false,
   withTabs = false,
   loading = false,
-  icon = null
+  icon = null,
+  actionIcon = null
 }) => {
   const { token } = useToken();
 
@@ -34,7 +35,13 @@ const ContentPanel = ({
         ) : (
           ''
         )}
-        {titleAction ? <div className="flex-none">{titleAction}</div> : ''}
+        {titleAction ? (
+          <a href="/transactions/create" className="border-primary rounded-md border border-solid p-1">
+            {titleAction} {actionIcon}
+          </a>
+        ) : (
+          ''
+        )}
       </div>
     ) : (
       ''
