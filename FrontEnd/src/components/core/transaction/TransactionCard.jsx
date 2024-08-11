@@ -1,14 +1,34 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { List, Tooltip } from 'antd';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { List, Tooltip, Popconfirm } from 'antd';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faArrowTrendUp, faArrowTrendDown } from '@fortawesome/free-solid-svg-icons';
+import Api from '../../../helpers/core/Api';
+
+const deleteTransaction = async id => {
+  await Api.delete(`/transactions/${id}`);
+};
 
 const TransactionCard = ({ item }) => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: deleteTransaction,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['transactions']);
+    }
+  });
 
   const handleItemClick = id => {
     navigate(`/transactions/${id}`);
+  };
+
+  const handleItemDelete = (e, id) => {
+    e.stopPropagation();
+    mutation.mutate(id);
   };
 
   return (
@@ -26,19 +46,21 @@ const TransactionCard = ({ item }) => {
         key={item.type}
         onClick={() => handleItemClick(item._id)}
         actions={[
-          <a key="list-loadmore-edit" href={`/transactions\${item.id}`}>
+          <a key="list-loadmore-edit" href={`/transactions/${item._id}`}>
             edit
           </a>,
-          <button
-            type="button"
+          <Popconfirm
+            title="Are you sure you want to delete this item?"
+            onConfirm={e => handleItemDelete(e, item._id)}
+            onCancel={e => e.stopPropagation()}
+            okText="Yes"
+            cancelText="No"
             key="list-loadmore-delete"
-            onClick={e => {
-              e.stopPropagation(); // Prevent the parent List.Item's onClick from triggering
-              console.log('Delete item', item);
-            }}
           >
-            <FontAwesomeIcon icon={faTrash} />
-          </button>
+            <button type="button" onClick={e => e.stopPropagation()}>
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
+          </Popconfirm>
         ]}
       >
         <div className="flex gap-2 align-middle">
@@ -49,7 +71,7 @@ const TransactionCard = ({ item }) => {
               <FontAwesomeIcon icon={faArrowTrendDown} />
             )}
           </span>
-          <span className="font-extrabold">{item.amount}$</span>{' '}
+          <span className="font-extrabold">{item.amount}$</span>
         </div>
         <div>
           {new Date(item.date).toLocaleDateString(undefined, {
