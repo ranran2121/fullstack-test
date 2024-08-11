@@ -1,30 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Input, Select, DatePicker, Button, InputNumber, notification, App as AntApp } from 'antd';
+import { useMutation } from '@tanstack/react-query';
 import Api from '../../../helpers/core/Api';
 
 const { Option } = Select;
 
+const createTransaction = async values => {
+  await Api.post('transactions', values);
+};
+
 const CreateTransactionForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [form] = Form.useForm();
 
-  const onFinish = async values => {
-    try {
-      setIsSubmitting(true);
-      await Api.post('transactions', values);
+  const createTransactionMutation = useMutation({
+    mutationFn: createTransaction,
+    onSuccess: () => {
+      form.resetFields();
       notification.success({
-        message: 'Transaction Created',
-        description: `Transaction of type ${values.type} with amount $${values.amount} created successfully.`
+        message: 'Transaction Created'
       });
-    } catch (_) {
+    },
+    onError: () => {
       notification.error({
         message: 'Something went wrong',
         description: 'Try again later...'
       });
-    } finally {
-      setIsSubmitting(false);
-      form.resetFields();
     }
+  });
+
+  const onFinish = values => {
+    createTransactionMutation.mutate(values);
   };
 
   const onReset = () => {
@@ -79,7 +84,7 @@ const CreateTransactionForm = () => {
           <Button type="default" onClick={onReset} className="mr-4">
             Cancel
           </Button>
-          <Button type="primary" htmlType="submit" disabled={isSubmitting} className="mr-0">
+          <Button type="primary" htmlType="submit" disabled={createTransactionMutation.isLoading} className="mr-0">
             Create Transaction
           </Button>
         </Form.Item>
