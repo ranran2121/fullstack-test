@@ -1,40 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Result } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { useQuery } from '@tanstack/react-query'; // Import useQuery from React Query
 import ContentPanel from '../components/core/layout/ContentPanel';
 import SingleTransaction from '../components/core/transaction/SingleTransaction';
 import Api from '../helpers/core/Api';
 
+const fetchTransaction = async id => {
+  const response = await Api.get(`/transactions/${id}`);
+  return response.data;
+};
+
 const TransactionPage = () => {
-  const [loading, setLoading] = useState(true);
-  const [transaction, setTransaction] = useState(null);
-  const [error, setError] = useState(false);
   const { id } = useParams();
 
-  const loadData = () => {
-    setLoading(true);
-    Api.get(`/transactions/${id}`)
-      .then(res => {
-        if (res.data) {
-          setTransaction(res.data);
-        }
-      })
-      .catch(_ => {
-        setError(true);
-      })
-      .finally(setLoading(false));
-  };
-
-  useEffect(() => {
-    loadData();
-  }, []);
+  const {
+    data: transaction,
+    error,
+    isLoading
+  } = useQuery({
+    queryKey: ['transaction', id],
+    queryFn: () => fetchTransaction(id),
+    enabled: !!id // Ensure the query only runs if id is available
+  });
 
   return (
     <ContentPanel
       title="Transaction"
-      loading={loading}
+      loading={isLoading}
       icon={<FontAwesomeIcon icon={faBook} size="1x" className="text-primary ml-2" />}
     >
       {error ? (
