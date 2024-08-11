@@ -53,14 +53,6 @@ const CreateTransactionForm = () => {
         </Form.Item>
 
         <Form.Item
-          name="description"
-          label="Description"
-          rules={[{ required: true, message: 'Please enter a description!' }]}
-        >
-          <Input placeholder="Enter transaction description" />
-        </Form.Item>
-
-        <Form.Item
           name="amount"
           label="Amount"
           rules={[
@@ -69,6 +61,14 @@ const CreateTransactionForm = () => {
           ]}
         >
           <InputNumber min={0} placeholder="Enter amount" style={{ width: '100%' }} />
+        </Form.Item>
+
+        <Form.Item
+          name="description"
+          label="Description"
+          rules={[{ required: true, message: 'Please enter a description!' }]}
+        >
+          <Input placeholder="Enter transaction description" />
         </Form.Item>
 
         <Form.Item name="date" label="Date" rules={[{ required: true, message: 'Please select a date!' }]}>
