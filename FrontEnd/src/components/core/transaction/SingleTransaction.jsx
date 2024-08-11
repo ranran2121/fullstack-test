@@ -1,10 +1,16 @@
 import React from 'react';
-import { Form, Input, InputNumber, App as AntApp, Typography } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { Form, Input, InputNumber, App as AntApp, Typography, Button } from 'antd';
 
 const { Title } = Typography;
 
 const SingleTransaction = ({ transaction }) => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
   if (!transaction) {
     return <Title className="mb-0 text-center text-lg font-bold lg:text-xl">No results</Title>;
@@ -31,7 +37,7 @@ const SingleTransaction = ({ transaction }) => {
         </Form.Item>
 
         <Form.Item name="amount" label="Amount $">
-          <InputNumber readOnly />
+          <InputNumber readOnly className="w-full" />
         </Form.Item>
 
         <Form.Item name="description" label="Description">
@@ -42,6 +48,11 @@ const SingleTransaction = ({ transaction }) => {
           <Input readOnly />
         </Form.Item>
       </Form>
+      <div className="flex justify-center">
+        <Button onClick={handleGoBack} type="default" className="bg-primary mt-4 text-white">
+          Go Back
+        </Button>
+      </div>
     </AntApp>
   );
 };
