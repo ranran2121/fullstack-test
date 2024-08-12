@@ -7,7 +7,7 @@ import TransactionCard from './TransactionCard';
 const { Title } = Typography;
 
 const TransactionsList = ({ data, loadMoreData }) => {
-  if (!data) {
+  if (!data || data.length === 0) {
     return <Title className="mb-0 text-center text-lg font-bold lg:text-xl">No results</Title>;
   }
 
@@ -22,7 +22,7 @@ const TransactionsList = ({ data, loadMoreData }) => {
       <InfiniteScroll
         dataLength={data.length}
         next={loadMoreData}
-        hasMore={data.length < 2}
+        hasMore={loadMoreData !== undefined}
         endMessage={
           <Divider plain className="italic">
             It is all, nothing more{' '}

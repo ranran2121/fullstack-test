@@ -23,7 +23,7 @@ const Home = () => {
   const { data, error, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['transactions', type],
     queryFn: context => fetchTransactions({ pageParam: context.pageParam, type }),
-    getNextPageParam: (lastPage, allPages) => (lastPage.length > 0 ? allPages.length + 1 : undefined)
+    getNextPageParam: lastPage => (lastPage.hasMore ? lastPage.nextPage : undefined)
   });
 
   // Flatten the data from pages
