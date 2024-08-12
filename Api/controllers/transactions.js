@@ -2,9 +2,17 @@ const Transaction = require('../models/transaction');
 const { SendData, ServerError, NotFound, Unauthorized } = require('../helpers/response');
 
 // Get all transactions for the authenticated user
-module.exports.getAll = async (_, { locals: { user } }, next) => {
+module.exports.getAll = async (req, { locals: { user } }, next) => {
   try {
-    const transactions = await Transaction.find({ userId: user.id });
+    const { type, sort = 'desc' } = req.query;
+
+    const query = { userId: user.id };
+    if (type) {
+      query.type = type;
+    }
+    const sortOrder = sort === 'asc' ? 1 : -1;
+
+    const transactions = await Transaction.find(query).sort({ date: sortOrder });
 
     return next(SendData(transactions));
   } catch (error) {

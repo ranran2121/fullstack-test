@@ -100,3 +100,11 @@
   justify-content: center;
   align-items: center;
 }
+
+/* FORM LABEL */
+:where(.css-dev-only-do-not-override-1kal30h).ant-form-vertical
+  .ant-form-item:not(.ant-form-item-horizontal)
+  .ant-form-item-label
+  > label {
+  color: #1677ff !important;
+}

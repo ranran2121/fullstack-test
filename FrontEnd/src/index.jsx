@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // Import React Query components
 
 import Routes from './routes/index';
 import { AppProvider } from './helpers/AppContext';
@@ -13,6 +14,9 @@ import FullpageLoading from './components/core/extra/FullpageLoading';
 import './helpers/core/i18n';
 import './styles/style.css';
 
+// Create a React Query client
+const queryClient = new QueryClient();
+
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
@@ -22,7 +26,9 @@ root.render(
         <MessageProvider>
           <ApiInterceptor>
             <AuthContextProvider>
-              <Routes />
+              <QueryClientProvider client={queryClient}>
+                <Routes />
+              </QueryClientProvider>
             </AuthContextProvider>
           </ApiInterceptor>
         </MessageProvider>

@@ -15,6 +15,8 @@ import Home from './Home';
 
 import AuthRoute from '../components/routes/AuthRoute';
 import GuestRoute from '../components/routes/GuestRoute';
+import CreateTransactionPage from './CreateTransactionPage';
+import TransactionPage from './TransactionPage';
 
 const { Content } = Layout;
 
@@ -39,7 +41,12 @@ const Index = () => {
           </AuthRoute>
         </Layout>
       ),
-      children: [{ path: '/', index: true, element: <Home /> }]
+      children: [
+        { path: '/', index: true, element: <Home /> },
+        { path: '/transactions/create', index: true, element: <CreateTransactionPage /> },
+        { path: '/transactions/:id', index: true, element: <TransactionPage /> },
+        { path: '/transactions', index: true, element: <Home /> }
+      ]
     },
     {
       path: '/',

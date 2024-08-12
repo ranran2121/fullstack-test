@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Button, Skeleton, Row, Col, Spin, theme, Typography } from 'antd';
+import { Button, Row, Col, Spin, theme, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,7 +13,9 @@ const ContentPanel = ({
   titleAction = false,
   back = false,
   withTabs = false,
-  loading = false
+  loading = false,
+  icon = null,
+  actionIcon = null
 }) => {
   const { token } = useToken();
 
@@ -22,13 +24,24 @@ const ContentPanel = ({
       <div className="flex w-full items-center">
         {title || subtitle ? (
           <div className="flex-auto">
-            {title && <Title className="mb-0 text-lg font-bold lg:text-2xl">{title}</Title>}
+            {title && (
+              <Title className="mb-0 text-lg font-bold capitalize lg:text-2xl">
+                {title}
+                {icon}
+              </Title>
+            )}
             {subtitle && <div className="mt-2">{subtitle}</div>}
           </div>
         ) : (
           ''
         )}
-        {titleAction ? <div className="flex-none">{titleAction}</div> : ''}
+        {titleAction ? (
+          <a href="/transactions/create" className="border-primary rounded-md border border-solid p-1">
+            {titleAction} {actionIcon}
+          </a>
+        ) : (
+          ''
+        )}
       </div>
     ) : (
       ''
@@ -47,7 +60,7 @@ const ContentPanel = ({
           </Button>
         </div>
       )}
-      {loading ? <Skeleton.Input active size="medium" /> : titleContainer}
+      {titleContainer}
     </div>
   );
 
@@ -85,7 +98,7 @@ export const renderTabBar = (props, DefaultTabBar) => {
 export const ContentLoading = () => (
   <Row type="flex" justify="center" align="middle" className="h-[50vh]">
     <Col>
-      <Spin />
+      <Spin size="large" />
     </Col>
   </Row>
 );

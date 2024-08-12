@@ -44,7 +44,11 @@
     "filter": "Filtra",
     "home": "Home",
     "new": "Nuovo",
-    "ok": "Ok"
+    "ok": "Ok",
+    "expenses": "Spese",
+    "incomes": "Entrate",
+    "transactions": "transazioni",
+    "transaction": "transazione"
   },
   "login": {
     "btn": "Accedi",
