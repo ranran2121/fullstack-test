@@ -15,7 +15,7 @@ const TransactionsList = ({ data, loadMoreData }) => {
     <div
       id="scrollableDiv"
       style={{
-        height: 400,
+        height: 'auto',
         overflow: 'auto'
       }}
     >

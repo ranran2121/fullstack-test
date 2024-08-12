@@ -25,7 +25,7 @@ const ContentPanel = ({
         {title || subtitle ? (
           <div className="flex-auto">
             {title && (
-              <Title className="mb-0 text-lg font-bold lg:text-2xl">
+              <Title className="mb-0 text-lg font-bold capitalize lg:text-2xl">
                 {title}
                 {icon}
               </Title>
