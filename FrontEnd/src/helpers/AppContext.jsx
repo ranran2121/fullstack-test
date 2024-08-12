@@ -2,7 +2,7 @@ import { useState, createContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faArrowTrendUp, faArrowTrendDown } from '@fortawesome/free-solid-svg-icons';
 
 import useLocalStorage from '../hooks/core/useLocalStorage';
 
@@ -34,6 +34,18 @@ export const AppProvider = props => {
         label: <Link to="/">{t('common.home')}</Link>,
         key: 'home',
         icon: <FontAwesomeIcon icon={faHome} />,
+        authorizedRoles: ['admin', 'designer', 'manufacturer', 'owner']
+      },
+      {
+        label: <Link to="/transactions?type=income">{t('common.incomes')}</Link>,
+        key: 'incomes',
+        icon: <FontAwesomeIcon icon={faArrowTrendDown} />,
+        authorizedRoles: ['admin', 'designer', 'manufacturer', 'owner']
+      },
+      {
+        label: <Link to="/transactions?type=expense">{t('common.expenses')}</Link>,
+        key: 'expenses',
+        icon: <FontAwesomeIcon icon={faArrowTrendUp} />,
         authorizedRoles: ['admin', 'designer', 'manufacturer', 'owner']
       }
     ]

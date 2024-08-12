@@ -44,7 +44,8 @@ const Index = () => {
       children: [
         { path: '/', index: true, element: <Home /> },
         { path: '/transactions/create', index: true, element: <CreateTransactionPage /> },
-        { path: '/transactions/:id', index: true, element: <TransactionPage /> }
+        { path: '/transactions/:id', index: true, element: <TransactionPage /> },
+        { path: '/transactions', index: true, element: <Home /> }
       ]
     },
     {
